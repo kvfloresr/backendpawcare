@@ -263,10 +263,23 @@ class AppointmentsService:
         try:
             with conn.cursor(pymysql.cursors.DictCursor) as cursor:
                 cursor.execute("""
-                    SELECT id, user_id, pet_id, doctor_id, date, TIME_FORMAT(time, '%%H:%%i:%%s') as time, description, status_appointments, category_id
-                    FROM Appointments
-                    WHERE status_appointments = 'Pendiente' AND status_view <> 'No Visible'
-                    """)
+                SELECT 
+                    a.id, 
+                    u.first_name AS user_name,
+                    p.name AS pet_name,
+                    d.first_name AS doctor_name,
+                    a.date, 
+                    TIME_FORMAT(a.time, '%H:%i:%s') as time, 
+                    a.description, 
+                    a.status_appointments, 
+                    cq.category_name
+                    FROM Appointments a
+                    JOIN Users u ON a.user_id = u.id
+                    JOIN Pets p ON a.pet_id = p.id
+                    JOIN Doctors d ON a.doctor_id = d.id
+                    JOIN CategoryQuotes cq ON a.category_id = cq.id
+                    WHERE a.status_view <> 'No Visible'
+                """)
                 pending_appointments = cursor.fetchall()
             return pending_appointments
         finally:

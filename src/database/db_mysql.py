@@ -1,11 +1,15 @@
 import pymysql
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 def get_connection():
-    host = 'roundhouse.proxy.rlwy.net'
-    user = 'root'
-    password = 'JojYWcfWGDAXdrQvHBzJXGipBMaSCUGU'  
-    db = 'railway'     
-    port = 34331                
+    host = os.getenv('DB_HOST')
+    user = os.getenv('DB_USER')
+    password = os.getenv('DB_PASSWORD')
+    db = os.getenv('DB_NAME')
+    port = int(os.getenv('DB_PORT'))
 
     try:
         conn = pymysql.connect(host=host, user=user, password=password, db=db, port=port)
@@ -15,4 +19,3 @@ def get_connection():
         print(f"Error de base de datos: {db_error}")
     except Exception as ex:
         print(f"Error de conexión: {ex}")
-

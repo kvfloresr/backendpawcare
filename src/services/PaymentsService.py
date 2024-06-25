@@ -94,7 +94,7 @@ def generate_qr(payment_data):
             'tnCiNit': license_identity,
             'tcNroPago': payment_data['tcNroPago'],  
             'tnMontoClienteEmpresa': '0.01',
-            'tcUrlCallBack': 'http://127.0.0.1:5000/payment/callback',
+            'tcUrlCallBack': 'https://apipawcare.onrender.com/payment/callback',
             'tcUrlReturn': '',
             'taPedidoDetalle': taPedidoDetalle
         })
