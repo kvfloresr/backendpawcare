@@ -37,7 +37,7 @@ class PetMedicalRecordService:
             raise ValueError(str(e))
         finally:
             conn.close()
-        return {'message': 'Medical record successfully added'}, 201
+        return True
 
     
     @staticmethod

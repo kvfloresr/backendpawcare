@@ -5,15 +5,20 @@ class HospitalizationService:
     
     @staticmethod
     def add_hospitalization(data):
+        pet_name = data.get('pet_name')
+
+        if not pet_name:
+            raise ValueError("Faltan datos esenciales para el registro.")
+        
         conn = get_connection()
         try:
             with conn.cursor() as cursor:
-                cursor.execute("SELECT id FROM Pets WHERE name = %s", (data['pet_name'],))
-                result = cursor.fetchone()
-                if result is None:
-                    raise ValueError(f"No pet found with name {data['pet_name']}")
+                cursor.execute("SELECT id FROM Pets WHERE name = %s", (pet_name,))
+                pet_result = cursor.fetchone()
+                if not pet_result:
+                    raise ValueError(f"No se encontró la mascota con ese nombre")
 
-                pet_id = result[0]
+                pet_id = pet_result['id']
 
                 cursor.execute(
                     "INSERT INTO Hospitalizations (pet_id, start_date, end_date, reason, observations, status_hospitalization, status_view) VALUES (%s, %s, %s, %s, %s, %s, %s)",
