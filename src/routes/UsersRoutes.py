@@ -53,7 +53,7 @@ def loginadmin():
                 'status': 'success',
                 'message': 'Successfully logged in.',
                 'auth_token': auth_token,
-                'role_name': role_name  # Incluye el nombre del rol en la respuesta
+                'role_name': role_name  
             }
             return make_response(jsonify(response_object), 200)
     except Exception as e:

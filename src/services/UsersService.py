@@ -70,7 +70,7 @@ class UsersService:
         try:
             with conn.cursor() as cursor:
                 cursor.execute("""
-                    SELECT u.password, r.role_name 
+                    SELECT u.password, r.id 
                     FROM Users u 
                     JOIN Roles r ON u.role_id = r.id 
                     WHERE u.email = %s
@@ -79,12 +79,11 @@ class UsersService:
 
                 if user_record and check_password_hash(user_record[0], password):
                     access_token = create_access_token(identity=email)
-                    return access_token, user_record[1]  # Retorna el token y el nombre del rol del usuario
+                    return access_token, user_record[1]  
                 else:
                     raise ValueError('Invalid credentials')
         finally:
             conn.close()
-
 
 
     @staticmethod
